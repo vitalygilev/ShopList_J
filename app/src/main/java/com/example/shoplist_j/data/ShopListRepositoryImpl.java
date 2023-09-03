@@ -4,6 +4,8 @@ import com.example.shoplist_j.domain.ShopItem;
 import com.example.shoplist_j.domain.ShopListRepository;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -14,6 +16,8 @@ public class ShopListRepositoryImpl implements ShopListRepository {
     private List<ShopItem> shopList = new ArrayList<>();
 
     private int autoIncrementId = 0;
+
+    private boolean firstCall = true;
 
     private ShopListRepositoryImpl() {
     }
@@ -27,9 +31,18 @@ public class ShopListRepositoryImpl implements ShopListRepository {
 
     @Override
     public List<ShopItem> getShopList() {
-        addShopItem(new ShopItem("Bobber 1", 1, false));
-        addShopItem(new ShopItem("Bobber 2", 2, false));
-        addShopItem(new ShopItem("Bobber 3", 3, false));
+        if (firstCall) {
+            addShopItem(new ShopItem("Bobber 1", 1, false));
+            addShopItem(new ShopItem("Bobber 2", 2, false));
+            addShopItem(new ShopItem("Bobber 3", 3, false));
+            firstCall = false;
+        }
+        Collections.sort(shopList, new Comparator<ShopItem>() {
+            @Override
+            public int compare(ShopItem o1, ShopItem o2) {
+                return o1.getId() - o2.getId();
+            }
+        });
         return new ArrayList<ShopItem>(shopList);
     }
 

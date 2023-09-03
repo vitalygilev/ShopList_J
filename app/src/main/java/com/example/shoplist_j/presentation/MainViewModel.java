@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.shoplist_j.data.ShopListRepositoryImpl;
 import com.example.shoplist_j.domain.DeleteShopItemUseCase;
 import com.example.shoplist_j.domain.EditShopItemUseCase;
+import com.example.shoplist_j.domain.GetShopItemUseCase;
 import com.example.shoplist_j.domain.GetShopListUseCase;
 import com.example.shoplist_j.domain.ShopItem;
 
@@ -38,6 +39,11 @@ public class MainViewModel extends ViewModel {
 
     public void deleteShopItem(ShopItem shopItem) {
         deleteShopItemUseCase.deleteShopItem(shopItem.getId());
+        getShopList();
+    }
+
+    public void deleteShopItemById(int id) {
+        deleteShopItemUseCase.deleteShopItem(id);
         getShopList();
     }
 
