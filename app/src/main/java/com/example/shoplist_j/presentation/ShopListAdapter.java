@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shoplist_j.R;
@@ -16,11 +17,14 @@ import com.example.shoplist_j.domain.ShopItem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShopListAdapter extends RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder> {
+public class ShopListAdapter extends ListAdapter<ShopItem, ShopItemViewHolder> {
 
-    private List<ShopItem> shopList = new ArrayList<>();
     private OnShopItemClickListener onShopItemClickListener;
     private OnShopItemLongClickListener onShopItemLongClickListener;
+
+    protected ShopListAdapter() {
+        super(new ShopItemDiffCallback());
+    }
 
     @NonNull
     @Override
@@ -42,7 +46,7 @@ public class ShopListAdapter extends RecyclerView.Adapter<ShopListAdapter.ShopIt
 
     @Override
     public void onBindViewHolder(@NonNull ShopItemViewHolder holder, int position) {
-        ShopItem curShopItem = shopList.get(position);
+        ShopItem curShopItem = getItemByPos(position);
         holder.tv_name.setText(curShopItem.getText());
         holder.tv_count.setText(Integer.toString(curShopItem.getCount()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -65,25 +69,14 @@ public class ShopListAdapter extends RecyclerView.Adapter<ShopListAdapter.ShopIt
     }
 
     @Override
-    public int getItemCount() {
-        return shopList.size();
-    }
-
-    public void setShopList(List<ShopItem> shopList) {
-        /*this.shopList = shopList;
-        notifyDataSetChanged();*/
-        ShopListDiffCallback callback = new ShopListDiffCallback(this.shopList, shopList);
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(callback);
-        diffResult.dispatchUpdatesTo(this);
-        this.shopList = shopList;
-    }
-
-    @Override
     public int getItemViewType(int position) {
-        ShopItem curShopItem = shopList.get(position);
+        ShopItem curShopItem = getItemByPos(position);
         return curShopItem.isEnabled() ? R.layout.item_shop_enabled : R.layout.item_shop_disabled;
     }
 
+    public ShopItem getItemByPos(int position) {
+        return getItem(position);
+    }
 
     interface OnShopItemClickListener {
         void onShopItemClick(View view, ShopItem curShopItem);
@@ -91,22 +84,6 @@ public class ShopListAdapter extends RecyclerView.Adapter<ShopListAdapter.ShopIt
 
     interface OnShopItemLongClickListener {
         boolean onShopItemLongClick(ShopItem curShopItem);
-    }
-
-    static class ShopItemViewHolder extends RecyclerView.ViewHolder {
-
-        private final TextView tv_name;
-        private final TextView tv_count;
-
-        public ShopItemViewHolder(@NonNull View itemView) {
-            super(itemView);
-            tv_name = itemView.findViewById(R.id.tv_name);
-            tv_count = itemView.findViewById(R.id.tv_count);
-        }
-    }
-
-    public List<ShopItem> getShopList() {
-        return shopList;
     }
 
 }

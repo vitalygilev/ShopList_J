@@ -1,8 +1,19 @@
 package com.example.shoplist_j.domain;
 
+import androidx.annotation.Nullable;
+
 public class ShopItem {
 
     public static int UNDEFINED_ID = -1;
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        ShopItem otherItem = (ShopItem)obj;
+        return this.id == otherItem.id &&
+                this.text == otherItem.text &&
+                this.count == otherItem.count &&
+                this.enabled == otherItem.enabled;
+    }
 
     private int id;
     private String text;

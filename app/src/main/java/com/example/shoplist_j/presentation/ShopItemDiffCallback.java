@@ -7,12 +7,7 @@ import com.example.shoplist_j.domain.ShopItem;
 
 public class ShopItemDiffCallback extends DiffUtil.ItemCallback<ShopItem> {
 
-    ShopItem lastItem;
-    ShopItem curItem;
-
-    public ShopItemDiffCallback(ShopItem lastItem, ShopItem curItem) {
-        this.lastItem = lastItem;
-        this.curItem = curItem;
+    public ShopItemDiffCallback() {
     }
 
     @Override

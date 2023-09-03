@@ -1,16 +1,15 @@
 package com.example.shoplist_j.presentation;
 
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
 import com.example.shoplist_j.R;
 import com.example.shoplist_j.domain.ShopItem;
@@ -39,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(List<ShopItem> shopItems) {
                 //mainViewModel.shopList.setValue(shopItems);
-                shopListAdapter.setShopList(shopItems);
+                //shopListAdapter.setShopList(shopItems);
+                shopListAdapter.submitList(shopItems);
             }
         });
 
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                mainViewModel.deleteShopItem(shopListAdapter.getShopList().get(viewHolder.getAdapterPosition()));
+                mainViewModel.deleteShopItem(shopListAdapter.getItemByPos(viewHolder.getAdapterPosition()));
             };
         };
 
