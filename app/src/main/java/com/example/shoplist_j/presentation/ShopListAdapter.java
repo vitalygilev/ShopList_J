@@ -70,8 +70,8 @@ public class ShopListAdapter extends RecyclerView.Adapter<ShopListAdapter.ShopIt
     }
 
     public void setShopList(List<ShopItem> shopList) {
-        //this.shopList = shopList;
-        //notifyDataSetChanged();
+        /*this.shopList = shopList;
+        notifyDataSetChanged();*/
         ShopListDiffCallback callback = new ShopListDiffCallback(this.shopList, shopList);
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(callback);
         diffResult.dispatchUpdatesTo(this);
